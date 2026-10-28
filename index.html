@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#fdfbf7" />
+  <meta name="description" content="Walima Invitation — Mr & Miss Hammad Sajid" />
+  <title>Walima Invitation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      /* Champagne ivory + antique gold (matches couple maroon/cream) */
+      --ivory-50: #fdfbf7;
+      --ivory-100: #f7f0e4;
+      --ivory-150: #efe6d6;
+      --ivory-200: #e4dac8;
+      --gold-300: #dcc48a;
+      --gold-400: #c4a055;
+      --gold-500: #a6843f;
+      --gold-600: #8a6a32;
+      --ink: #3a322a;
+      --ink-soft: #5a4f44;
+      --ink-muted: rgba(58, 50, 42, 0.7);
+      --maroon-500: #922438;
+      --maroon-700: #601825;
+      --border-gold: rgba(166, 132, 63, 0.52);
+      --border-gold-fine: rgba(166, 132, 63, 0.26);
+      --shadow-warm: rgba(94, 72, 40, 0.11);
+      --shadow-warm-md: rgba(94, 72, 40, 0.16);
+      --surface-page: linear-gradient(180deg, var(--ivory-50) 0%, var(--ivory-150) 100%);
+      --surface-card: linear-gradient(165deg, var(--ivory-50) 0%, var(--ivory-100) 100%);
+      --surface-invite: linear-gradient(180deg, var(--ivory-50) 0%, var(--ivory-100) 54%, var(--ivory-150) 100%);
+      --surface-btn: linear-gradient(180deg, #f0e4cc 0%, #dcc99f 100%);
+      --frame-gold: linear-gradient(145deg, #e8d9b4, var(--gold-400) 48%, var(--gold-500));
+      --bg-deep: var(--ivory-150);
+      --bg-mid: var(--ivory-50);
+      --gold: var(--gold-400);
+      --gold-dark: var(--gold-600);
+      --gold-light: var(--gold-300);
+      --gold-pale: var(--ivory-100);
+      --cream: var(--ink);
+      --cream-dim: var(--ink-muted);
+      --card-bg: var(--ivory-50);
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+      --font-body: "Cormorant Garamond", Georgia, serif;
+      --font-script: "Great Vibes", cursive;
+      --font-urdu: "Noto Nastaliq Urdu", serif;
+      --font-seal: "Cinzel", "Cormorant Garamond", Georgia, serif;
+      --transition-slide: 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+      --footer-clear: calc(4.5rem + var(--safe-bottom));
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { height: 100%; -webkit-text-size-adjust: 100%; }
+
+    body {
+      min-height: 100dvh;
+      font-family: var(--font-body);
+      font-size: clamp(1rem, 2.8vw, 1.125rem);
+      line-height: 1.55;
+      color: var(--cream);
+      background:
+        radial-gradient(ellipse 90% 55% at 50% -8%, rgba(196, 160, 85, 0.14) 0%, transparent 58%),
+        radial-gradient(ellipse 110% 70% at 50% 105%, rgba(166, 132, 63, 0.08) 0%, transparent 52%),
+        var(--surface-page);
+      background-attachment: fixed;
+      overflow: hidden;
+      padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
+      touch-action: pan-y;
+    }
+
+    .petals {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .petal {
+      position: absolute;
+      top: -5%;
+      width: clamp(8px, 2vw, 14px);
+      height: clamp(10px, 2.5vw, 18px);
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      border-radius: 50% 0 50% 50%;
+      opacity: 0.22;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      to { transform: translateY(110vh) rotate(720deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .petal { animation: none; opacity: 0.15; top: 20%; }
+      .slide { transition: opacity 0.2s ease !important; transform: none !important; }
+      .seal-pulse { animation: none !important; }
+      .envelope.open .env-flap--top,
+      .envelope-stage.is-open .photo-card,
+      .envelope-stage.is-open { transition-duration: 0.01ms !important; }
+      .envelope-scene.is-open .envelope-wrap {
+        transition-delay: 0s;
+        opacity: 0;
+        visibility: hidden;
+        max-height: 0;
+      }
+    }
+
+    .app {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100dvh - var(--safe-top) - var(--safe-bottom));
+      max-width: 480px;
+      margin: 0 auto;
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    .slides-viewport {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: max(0.5rem, var(--safe-top)) 1rem var(--footer-clear);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(24px);
+      transition: opacity var(--transition-slide), transform var(--transition-slide), visibility var(--transition-slide);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+      z-index: 2;
+    }
+
+    .slide.exit-left {
+      transform: translateX(-24px);
+      opacity: 0;
+    }
+
+    .slide > .card,
+    .slide > .envelope-scene {
+      margin-block: auto;
+      flex-shrink: 0;
+      width: 100%;
+    }
+
+    .card {
+      position: relative;
+      width: 100%;
+      max-width: 22rem;
+      padding: 1.85rem 1.4rem 1.65rem;
+      background: var(--surface-card);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--border-gold);
+      border-radius: 3px;
+      text-align: center;
+      box-shadow:
+        0 14px 36px var(--shadow-warm),
+        inset 0 1px 0 rgba(255, 255, 255, 0.75),
+        0 0 0 3px rgba(253, 251, 247, 0.85),
+        0 0 0 4px var(--border-gold-fine);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: 1px solid var(--border-gold-fine);
+      border-radius: 1px;
+      pointer-events: none;
+    }
+
+    .card--wide { max-width: 100%; }
+
+    .card-photo-frame {
+      position: relative;
+      width: min(120px, 34vw);
+      max-width: 128px;
+      margin: 0 auto 1rem;
+      padding: 2px;
+      background: var(--frame-gold);
+      box-shadow: 0 8px 20px var(--shadow-warm-md);
+    }
+
+    .card-photo-frame::after {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      pointer-events: none;
+    }
+
+    .card-photo-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 132px;
+      object-fit: contain;
+      background: transparent;
+      padding: 0;
+      border: none;
+    }
+
+    h1, .script-title {
+      font-family: var(--font-script);
+      font-weight: 400;
+      color: var(--gold-dark);
+      line-height: 1.2;
+    }
+
+    .script-title {
+      font-size: clamp(2.25rem, 8vw, 3rem);
+      margin: 0.5rem 0;
+    }
+
+    .slide-title {
+      font-family: var(--font-script);
+      font-size: clamp(2rem, 7vw, 2.75rem);
+      color: var(--gold-dark);
+      margin-bottom: 0.35rem;
+    }
+
+    .urdu {
+      font-family: var(--font-urdu);
+      font-size: clamp(1.15rem, 4.5vw, 1.45rem);
+      line-height: 1.9;
+      color: var(--gold-dark);
+      direction: rtl;
+    }
+
+    .muted { color: var(--cream-dim); font-size: 0.95em; }
+
+    .gold-line {
+      width: 3rem;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 1rem auto;
+    }
+
+    .date-block {
+      font-size: clamp(0.75rem, 2.5vw, 0.85rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .venue-name {
+      font-size: 1.15em;
+      color: var(--cream);
+      margin: 0.75rem 0 0.35rem;
+      font-weight: 600;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      justify-content: center;
+      margin-top: 1.25rem;
+      width: 100%;
+    }
+
+    button, .btn-link {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.65rem 1.25rem;
+      border: 1px solid var(--gold);
+      background: rgba(253, 251, 247, 0.82);
+      color: var(--gold-dark);
+      border-radius: 2px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, transform 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:active, .btn-link:active { transform: scale(0.98); }
+    button:focus-visible, .btn-link:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+    }
+
+    button.primary {
+      background: var(--surface-btn);
+      border-color: var(--gold-500);
+      color: var(--gold-600);
+      box-shadow: 0 4px 14px var(--shadow-warm);
+    }
+
+    button.ghost {
+      border-color: var(--border-gold);
+      background: rgba(253, 251, 247, 0.55);
+      color: var(--ink-soft);
+    }
+
+    .dots {
+      position: fixed;
+      bottom: calc(0.85rem + var(--safe-bottom));
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 0.5rem;
+      z-index: 10;
+      padding: 0.35rem 0.65rem;
+      background: rgba(253, 251, 247, 0.92);
+      border-radius: 999px;
+      border: 1px solid var(--border-gold-fine);
+      box-shadow: 0 4px 16px var(--shadow-warm);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: none;
+      padding: 0;
+      background: rgba(166, 132, 63, 0.32);
+      cursor: pointer;
+      transition: background 0.25s, transform 0.25s;
+    }
+
+    .dot.active {
+      background: var(--gold);
+      transform: scale(1.15);
+    }
+
+    .envelope-scene {
+      text-align: center;
+      width: 100%;
+      max-width: min(380px, 96vw);
+      margin: 0 auto;
+    }
+
+    /* Walima invitation card — single clean surface + transparent corner art */
+    .invite-card {
+      position: relative;
+      width: 100%;
+      padding: clamp(0.85rem, 3.6vw, 1.2rem) clamp(0.75rem, 3.2vw, 1rem) clamp(1rem, 4vw, 1.25rem);
+      background: var(--surface-invite);
+      border: 1.5px solid var(--border-gold);
+      box-shadow: 0 14px 36px var(--shadow-warm-md);
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .invite-card::after {
+      content: "";
+      position: absolute;
+      inset: 6px;
+      border: 1px solid var(--border-gold-fine);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .invite-card__deco {
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .invite-card__deco--floral {
+      width: clamp(88px, 28vw, 118px);
+      height: clamp(88px, 28vw, 118px);
+      opacity: 0.38;
+      background:
+        radial-gradient(circle at 28% 32%, rgba(196, 160, 85, 0.45), transparent 58%),
+        radial-gradient(circle at 62% 48%, rgba(166, 132, 63, 0.28), transparent 52%);
+    }
+
+    .invite-card__deco--floral-tl { top: 0; left: 0; transform: translate(-8%, -8%); }
+    .invite-card__deco--floral-br { bottom: 0; right: 0; transform: translate(8%, 8%) scale(-1); }
+
+    .envelope-scene:not(.is-open) .invite-card__deco--floral-br {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .envelope-scene.is-open .invite-card {
+      padding-bottom: clamp(1.4rem, 5.5vw, 2rem);
+    }
+
+    .invite-card__head {
+      position: relative;
+      z-index: 2;
+      margin-bottom: 0.45rem;
+      padding: clamp(0.65rem, 3vw, 0.95rem) clamp(1.25rem, 8vw, 2rem) 0;
+      text-align: center;
+    }
+
+    .invite-card__script {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(0.35rem, 2vw, 0.55rem);
+      font-family: var(--font-script);
+      font-size: clamp(2.15rem, 10vw, 2.85rem);
+      color: var(--gold-600);
+      line-height: 1;
+      margin-bottom: 0.2rem;
+    }
+
+    .invite-orn {
+      flex: 0 0 clamp(1.25rem, 5vw, 1.75rem);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(166, 132, 63, 0.75));
+      position: relative;
+    }
+
+    .invite-orn--r {
+      background: linear-gradient(270deg, transparent, rgba(166, 132, 63, 0.75));
+    }
+
+    .invite-card__label {
+      font-family: var(--font-body);
+      font-size: clamp(0.62rem, 2.35vw, 0.74rem);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--gold-500);
+      font-weight: 600;
+    }
+
+    .invite-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      margin: 0.5rem auto;
+      width: min(100%, 16rem);
+    }
+
+    .invite-divider::before,
+    .invite-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(166, 132, 63, 0.65), transparent);
+    }
+
+    .invite-divider__gem {
+      width: 7px;
+      height: 7px;
+      background: linear-gradient(135deg, var(--gold-300), var(--gold-400));
+      transform: rotate(45deg);
+      box-shadow: 0 0 0 1px rgba(138, 106, 50, 0.35);
+      flex-shrink: 0;
+    }
+
+    .invite-hosts {
+      font-size: clamp(0.98rem, 3.6vw, 1.12rem);
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.35;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    .invite-walima-sm {
+      font-family: var(--font-script);
+      font-size: clamp(1.85rem, 8vw, 2.35rem);
+      color: var(--gold-600);
+      line-height: 1.05;
+      margin: 0.25rem 0 0.15rem;
+      text-align: center;
+    }
+
+    .invite-note {
+      font-size: clamp(0.82rem, 3vw, 0.94rem);
+      font-style: italic;
+      line-height: 1.5;
+      margin: 0.35rem auto 0;
+      max-width: 17rem;
+      text-align: center;
+      color: var(--cream-dim);
+    }
+
+    .invite-card__foot {
+      display: none;
+      margin-top: 0.35rem;
+      text-align: center;
+      width: 100%;
+    }
+
+    .invite-sign {
+      font-family: var(--font-script);
+      font-size: clamp(1.25rem, 5.2vw, 1.65rem);
+      color: var(--gold-600);
+      line-height: 1.2;
+      padding: 0 0.35rem 0.15rem;
+    }
+
+    .env-layout {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.65rem;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+    }
+
+    .invite-card__head,
+    .env-layout,
+    .invite-card__foot {
+      position: relative;
+      z-index: 2;
+    }
+
+    .env-layout__copy {
+      display: none;
+      width: 100%;
+      text-align: center;
+    }
+
+    .envelope-scene:not(.is-open) .env-layout__copy,
+    .envelope-scene:not(.is-open) .invite-card__foot {
+      display: none;
+    }
+
+    #env-subtitle {
+      line-height: 1.45;
+      font-size: clamp(0.8rem, 2.9vw, 0.9rem);
+      margin: 0 auto;
+      max-width: 16rem;
+      font-style: italic;
+      text-align: center;
+    }
+
+    .env-layout__media {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .envelope-stage {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 300px);
+      margin: 0 auto;
+      flex-shrink: 0;
+    }
+
+    .envelope-scene:not(.is-open) .envelope-stage {
+      width: min(100%, 268px);
+      max-width: calc(100% - 1.5rem);
+    }
+
+    .photo-mount {
+      width: 100%;
+      display: none;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .photo-mount:not(:empty) {
+      display: flex;
+    }
+
+    .env-layout__actions {
+      width: 100%;
+      max-width: 20rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    /* Open: vertical stack like reference artboard */
+    .envelope-scene.is-open .env-layout__copy,
+    .envelope-scene.is-open .invite-card__foot {
+      display: block;
+    }
+
+    .envelope-scene.is-open .env-layout {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .envelope-scene.is-open .env-layout__media {
+      width: 100%;
+      order: 2;
+      margin: 0.15rem 0 0.05rem;
+    }
+
+    .envelope-scene.is-open .envelope-stage {
+      display: none;
+    }
+
+    .envelope-scene.is-open .photo-mount {
+      display: flex;
+      min-height: 0;
+    }
+
+    .envelope-scene.is-open .env-layout__copy {
+      order: 1;
+    }
+
+    .envelope-scene.is-open .invite-card__foot {
+      order: 3;
+    }
+
+    .envelope-scene.is-open .env-layout__actions {
+      order: 4;
+      width: 100%;
+      max-width: 14rem;
+      margin-top: 0.25rem;
+    }
+
+    .envelope-scene.is-open .hint {
+      text-align: center;
+      padding: 0;
+      min-height: auto;
+      font-size: 0.78rem;
+    }
+
+    .envelope-scene.is-open .photo-card.photo-card--revealed {
+      width: min(240px, 78vw);
+      max-width: 260px;
+      margin: 0 auto;
+    }
+
+    .envelope-scene.is-open .photo-card__frame {
+      width: 100%;
+      max-width: none;
+      margin: 0 auto;
+      padding: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .envelope-scene.is-open .photo-card__mat {
+      background: transparent;
+      border: none;
+      padding: 0;
+      line-height: 0;
+    }
+
+    .envelope-scene.is-open .couple-photo {
+      max-height: min(280px, 62vw);
+      width: auto;
+      max-width: min(240px, 72vw);
+      background: transparent;
+      object-fit: contain;
+      vertical-align: top;
+    }
+
+    .envelope-scene.is-open .photo-card--revealed .photo-card__frame {
+      box-shadow: none;
+    }
+
+    .envelope-scene.is-open .photo-card__caption {
+      display: none;
+    }
+
+    .envelope-scene:not(.is-open) .env-layout__actions {
+      margin-top: 0.15rem;
+    }
+
+    .envelope-wrap {
+      position: relative;
+      width: 100%;
+      perspective: 1000px;
+      transform-style: preserve-3d;
+      transform-origin: center center;
+      transition:
+        opacity 0.45s ease,
+        transform 0.45s ease,
+        max-height 0.5s ease 0.1s,
+        margin 0.45s ease;
+      max-height: 280px;
+      overflow: hidden;
+    }
+
+    .envelope-scene.is-open .envelope-wrap {
+      opacity: 0;
+      visibility: hidden;
+      max-height: 0;
+      margin: 0;
+      transform: scale(0.94);
+      pointer-events: none;
+      transition-delay: 0.55s;
+    }
+
+    /* Burgundy frame + classic cream envelope (back view) */
+    .envelope-frame {
+      padding: 3px;
+      background: var(--frame-gold);
+      border: 1px solid var(--border-gold-fine);
+      box-shadow: 0 12px 28px var(--shadow-warm-md);
+    }
+
+    .envelope {
+      position: relative;
+      width: 100%;
+      min-height: 168px;
+      aspect-ratio: 1.72 / 1;
+      cursor: default;
+      -webkit-tap-highlight-color: transparent;
+      background-color: var(--ivory-150);
+      background-image:
+        radial-gradient(ellipse at 20% 30%, rgba(255, 255, 255, 0.32), transparent 55%),
+        radial-gradient(ellipse at 80% 70%, rgba(58, 50, 42, 0.04), transparent 50%),
+        linear-gradient(165deg, var(--ivory-100) 0%, var(--ivory-150) 45%, var(--ivory-200) 100%);
+      overflow: hidden;
+    }
+
+    @supports not (aspect-ratio: 1 / 1) {
+      .envelope {
+        height: 0;
+        padding-bottom: 58%;
+        min-height: 0;
+      }
+    }
+
+    .env-flap {
+      position: absolute;
+      pointer-events: none;
+      filter: drop-shadow(0 1px 1px rgba(58, 50, 42, 0.07));
+    }
+
+    .env-flap--bottom {
+      inset: 0;
+      background: linear-gradient(0deg, var(--ivory-200) 0%, var(--ivory-100) 100%);
+      clip-path: polygon(0 100%, 100% 100%, 50% 42%);
+      z-index: 2;
+    }
+
+    .env-flap--left {
+      inset: 0;
+      background: linear-gradient(90deg, var(--ivory-150), var(--ivory-100));
+      clip-path: polygon(0 0, 0 100%, 50% 50%);
+      z-index: 3;
+    }
+
+    .env-flap--right {
+      inset: 0;
+      background: linear-gradient(270deg, var(--ivory-150), var(--ivory-100));
+      clip-path: polygon(100% 0, 100% 100%, 50% 50%);
+      z-index: 3;
+    }
+
+    .env-flap--top {
+      inset: 0;
+      background: linear-gradient(180deg, var(--ivory-50), var(--ivory-150));
+      clip-path: polygon(0 0, 100% 0, 50% 58%);
+      transform-origin: top center;
+      transform: rotateX(0deg);
+      transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 6;
+      backface-visibility: hidden;
+    }
+
+    .env-crease {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      pointer-events: none;
+      background:
+        linear-gradient(135deg, transparent 49.5%, rgba(58, 50, 42, 0.06) 50%, transparent 50.5%),
+        linear-gradient(45deg, transparent 49.5%, rgba(58, 50, 42, 0.06) 50%, transparent 50.5%);
+      opacity: 0.65;
+    }
+
+    .envelope-slot {
+      position: absolute;
+      left: 18%;
+      right: 18%;
+      top: 28%;
+      bottom: 18%;
+      overflow: hidden;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .photo-card {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      transform: translateY(75%);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .photo-card.photo-card--revealed {
+      position: relative;
+      left: auto;
+      right: auto;
+      bottom: auto;
+      width: min(210px, 82vw);
+      max-width: 240px;
+      transform: none;
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto;
+      cursor: pointer;
+      animation: photoPop 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes photoPop {
+      from { opacity: 0; transform: scale(0.92) translateY(8px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    .photo-card__frame {
+      width: min(168px, 48vw);
+      max-width: 180px;
+      margin: 0 auto;
+      padding: 2px;
+      background: var(--frame-gold);
+      box-shadow: 0 8px 20px var(--shadow-warm-md);
+    }
+
+    .photo-card__mat {
+      background: var(--ivory-100);
+      padding: 4px;
+      line-height: 0;
+      border: 1px solid var(--border-gold-fine);
+    }
+
+    .couple-photo {
+      display: block;
+      width: auto;
+      max-width: 100%;
+      height: auto;
+      max-height: 168px;
+      margin: 0 auto;
+      object-fit: contain;
+      object-position: center center;
+      user-select: none;
+      -webkit-user-drag: none;
+      image-rendering: auto;
+    }
+
+    .photo-card__caption {
+      margin-top: 0.4rem;
+      font-family: var(--font-script);
+      font-size: clamp(0.88rem, 3.4vw, 1.12rem);
+      line-height: 1.15;
+      white-space: nowrap;
+      color: var(--gold-dark);
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.4s ease 0.25s, max-height 0.4s ease 0.25s;
+    }
+
+    .photo-card--revealed .photo-card__frame {
+      box-shadow:
+        0 0 0 1px rgba(220, 196, 138, 0.45),
+        0 12px 28px var(--shadow-warm-md);
+    }
+
+    .photo-card--revealed .photo-card__caption {
+      opacity: 1;
+      max-height: 1.75rem;
+      overflow: visible;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .photo-card.photo-card--revealed { animation: none; }
+    }
+
+    .seal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: clamp(66px, 20vw, 80px);
+      height: clamp(66px, 20vw, 80px);
+      margin: 0;
+      padding: 0;
+      border: none;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 32% 28%, #c42e4a 0%, var(--maroon-500) 42%, var(--maroon-700) 78%, #4a1018 100%);
+      box-shadow:
+        inset 0 2px 6px rgba(255, 255, 255, 0.22),
+        inset 0 -3px 8px rgba(0, 0, 0, 0.28),
+        0 5px 14px rgba(96, 24, 37, 0.35);
+      z-index: 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .seal::before {
+      content: "";
+      position: absolute;
+      inset: 7px;
+      border-radius: 50%;
+      border: 1px solid rgba(220, 196, 138, 0.8);
+      box-shadow: 0 0 0 1px rgba(74, 16, 24, 0.22);
+    }
+
+    .seal__monogram {
+      position: relative;
+      z-index: 1;
+      display: block;
+      white-space: nowrap;
+      font-family: var(--font-seal);
+      font-weight: 600;
+      font-size: clamp(0.72rem, 3.1vw, 0.88rem);
+      color: #f5ead0;
+      text-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.55),
+        0 0 1px rgba(0, 0, 0, 0.85);
+      line-height: 1;
+      letter-spacing: 0.1em;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    .seal-pulse { animation: sealPulse 2.2s ease-in-out infinite; }
+
+    @keyframes sealPulse {
+      0%, 100% { box-shadow: inset 0 2px 6px rgba(255,255,255,0.22), inset 0 -3px 8px rgba(0,0,0,0.28), 0 5px 14px rgba(96,24,37,0.35), 0 0 0 0 rgba(146, 36, 56, 0.32); }
+      50% { box-shadow: inset 0 2px 6px rgba(255,255,255,0.22), inset 0 -3px 8px rgba(0,0,0,0.28), 0 5px 14px rgba(96,24,37,0.35), 0 0 0 12px rgba(146, 36, 56, 0); }
+    }
+
+    .envelope.open .seal {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.55);
+      pointer-events: none;
+    }
+
+    .envelope.open .env-flap--top {
+      transform: rotateX(175deg);
+      z-index: 2;
+    }
+
+    .hint {
+      position: relative;
+      z-index: 1;
+      flex-shrink: 0;
+      min-height: 2.5em;
+      padding: 1rem 1rem 0;
+      line-height: 1.45;
+      font-size: 0.85rem;
+      color: var(--cream-dim);
+      font-style: italic;
+      max-width: 20rem;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .hint:focus-visible {
+      outline: 2px solid var(--gold-light);
+      outline-offset: 4px;
+      border-radius: 2px;
+    }
+
+    .envelope-scene:not(.is-open) .hint {
+      color: var(--gold-dark);
+    }
+
+    .env-continue {
+      display: none;
+      width: 100%;
+      max-width: 11.5rem;
+      margin: 0;
+    }
+
+    .env-continue.visible {
+      display: block;
+    }
+
+    .envelope-scene.is-open .env-continue.visible {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    @media (max-height: 680px) {
+      :root { --footer-clear: calc(5.25rem + var(--safe-bottom)); }
+      .envelope-scene .intro-text { margin-bottom: 0.35rem; }
+      .envelope-scene h1 { font-size: clamp(1.45rem, 5.5vw, 1.75rem); }
+      .envelope-stage { width: min(248px, 84vw); gap: 0.45rem; }
+      .envelope { aspect-ratio: 1.65 / 1; min-height: 150px; }
+      .photo-card.photo-card--revealed { width: min(200px, 88vw); }
+      .photo-card__frame { width: min(148px, 44vw); }
+      .couple-photo { max-height: 128px; }
+      .photo-card__caption { font-size: clamp(0.78rem, 3.1vw, 0.95rem); }
+      .photo-card__caption { font-size: 0.95rem; margin-top: 0.3rem; }
+      .card-photo-frame { width: min(132px, 42vw); margin-bottom: 0.65rem; }
+      .script-title { font-size: clamp(1.75rem, 7vw, 2.1rem); }
+      .card { padding: 1.25rem 1rem 1.15rem; }
+      .hint { margin-top: 0.35rem; min-height: 2.2em; font-size: 0.8rem; }
+      .gold-line { margin: 0.65rem auto; }
+    }
+
+    @media (max-width: 360px) {
+      .date-block { letter-spacing: 0.1em; font-size: 0.7rem; }
+      button, .btn-link { font-size: 0.85rem; padding: 0.55rem 0.95rem; }
+    }
+
+    @media (max-height: 568px) {
+      .slide > .card,
+      .slide > .envelope-scene { margin-block: 0; }
+      #env-subtitle { font-size: 0.88rem; line-height: 1.4; }
+      .envelope-wrap { width: 100%; }
+      .envelope-scene.is-open .couple-photo { max-height: min(180px, 46vw); }
+      .envelope { min-height: 140px; aspect-ratio: 1.68 / 1; }
+    }
+
+    @media (max-width: 340px) {
+      .invite-hosts { font-size: 0.88rem; white-space: normal; }
+      .invite-card__head { padding-inline: 1rem; }
+    }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      margin: 1.25rem 0 0.5rem;
+      width: 100%;
+    }
+
+    .countdown-item {
+      background: rgba(253, 251, 247, 0.88);
+      border: 1px solid var(--border-gold-fine);
+      padding: 0.5rem 0.25rem;
+      border-radius: 2px;
+    }
+
+    .countdown-item .num {
+      font-size: clamp(1.25rem, 5vw, 1.6rem);
+      font-weight: 600;
+      color: var(--gold-dark);
+      display: block;
+    }
+
+    .countdown-item .lbl {
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+    }
+
+    .signature {
+      font-family: var(--font-script);
+      font-size: clamp(1.75rem, 6vw, 2.25rem);
+      color: var(--gold-dark);
+      margin-top: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="petals" id="petals" aria-hidden="true"></div>
+
+  <div class="app">
+    <div class="slides-viewport" id="viewport">
+      <!-- Slide 0: Envelope -->
+      <section class="slide active" id="slide-0" data-slide="0" aria-labelledby="env-walima-head">
+        <div class="envelope-scene" id="envelope-scene">
+          <article class="invite-card" aria-labelledby="env-walima-head">
+            <div class="invite-card__deco invite-card__deco--floral invite-card__deco--floral-tl" aria-hidden="true"></div>
+            <div class="invite-card__deco invite-card__deco--floral invite-card__deco--floral-br" aria-hidden="true"></div>
+            <header class="invite-card__head">
+              <p class="invite-card__script" id="env-walima-head">
+                <span class="invite-orn" aria-hidden="true"></span>
+                Walima
+                <span class="invite-orn invite-orn--r" aria-hidden="true"></span>
+              </p>
+              <p class="invite-card__label">Invitation</p>
+            </header>
+          <div class="env-layout">
+            <div class="env-layout__copy">
+              <div class="invite-divider" aria-hidden="true"><span class="invite-divider__gem"></span></div>
+              <p class="invite-hosts" id="env-hosts"></p>
+              <p class="muted" id="env-subtitle"></p>
+              <p class="invite-walima-sm">Walima</p>
+              <div class="invite-divider" aria-hidden="true"><span class="invite-divider__gem"></span></div>
+              <p class="invite-note muted" id="env-note"></p>
+            </div>
+            <div class="env-layout__media">
+              <div class="photo-mount" id="photo-mount" aria-hidden="true"></div>
+              <div class="envelope-stage" id="envelope-stage">
+                <div class="envelope-wrap">
+                  <div class="envelope-frame">
+                    <div class="envelope" id="envelope">
+                      <div class="envelope-slot" id="envelope-slot">
+                        <div class="photo-card" id="photo-card" role="button" tabindex="-1" aria-hidden="true" aria-label="Continue to invitation">
+                          <div class="photo-card__frame">
+                            <div class="photo-card__mat">
+                              <img class="couple-photo" id="couple-photo" src="" alt="" width="464" height="692" decoding="async" />
+                            </div>
+                          </div>
+                          <p class="photo-card__caption" id="photo-caption"></p>
+                        </div>
+                      </div>
+                      <div class="env-flap env-flap--bottom" aria-hidden="true"></div>
+                      <div class="env-flap env-flap--left" aria-hidden="true"></div>
+                      <div class="env-flap env-flap--right" aria-hidden="true"></div>
+                      <div class="env-flap env-flap--top" aria-hidden="true"></div>
+                      <div class="env-crease" aria-hidden="true"></div>
+                      <button type="button" class="seal seal-pulse" id="seal" aria-label="Tap the seal to open the invitation">
+                        <span class="seal__monogram" id="seal-letter" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <footer class="invite-card__foot">
+              <div class="invite-divider" aria-hidden="true"><span class="invite-divider__gem"></span></div>
+              <p class="invite-sign" id="env-footer-names"></p>
+            </footer>
+            <div class="env-layout__actions">
+              <p class="hint" id="env-hint" role="button" tabindex="0">Tap the seal to open the invitation</p>
+              <button type="button" class="primary env-continue" id="btn-env-continue">Continue</button>
+            </div>
+          </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Slide 1: Intro -->
+      <section class="slide" id="slide-1" data-slide="1">
+        <div class="card">
+          <div class="card-photo-frame">
+            <img id="intro-couple-photo" src="" alt="" width="464" height="692" decoding="async" />
+          </div>
+          <p class="urdu" id="intro-bismillah"></p>
+          <div class="gold-line"></div>
+          <p class="muted" id="intro-line"></p>
+          <p class="script-title" id="intro-names"></p>
+          <div class="gold-line"></div>
+          <p class="urdu" id="intro-urdu-invite"></p>
+          <div class="btn-row">
+            <button type="button" class="primary" data-goto="2">View details</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 2: Walima details -->
+      <section class="slide" id="slide-2" data-slide="2">
+        <div class="card card--wide">
+          <h2 class="slide-title" id="walima-heading"></h2>
+          <p class="date-block" id="walima-date"></p>
+          <p class="muted" id="walima-tagline"></p>
+          <p class="venue-name" id="walima-time"></p>
+          <p class="venue-name" id="walima-venue"></p>
+          <a class="btn-link" id="walima-maps" href="#" target="_blank" rel="noopener noreferrer">View on Google Maps</a>
+          <div class="btn-row">
+            <button type="button" class="primary" data-goto="3">Closing words</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 3: Closing + countdown -->
+      <section class="slide" id="slide-3" data-slide="3">
+        <div class="card">
+          <p class="script-title" style="font-size: clamp(1.75rem, 6vw, 2.25rem);">With love</p>
+          <p class="muted" style="margin: 0.75rem 0;">We humbly ask for your duas.</p>
+          <p class="signature" id="closing-signature"></p>
+          <div class="gold-line"></div>
+          <p class="muted" id="countdown-label"></p>
+          <div class="countdown" id="countdown" aria-live="polite">
+            <div class="countdown-item"><span class="num" id="cd-days">0</span><span class="lbl">Days</span></div>
+            <div class="countdown-item"><span class="num" id="cd-hrs">0</span><span class="lbl">Hrs</span></div>
+            <div class="countdown-item"><span class="num" id="cd-min">0</span><span class="lbl">Min</span></div>
+            <div class="countdown-item"><span class="num" id="cd-sec">0</span><span class="lbl">Sec</span></div>
+          </div>
+          <div class="btn-row">
+            <button type="button" class="ghost" data-goto="2">View Walima details</button>
+            <button type="button" class="primary" id="btn-reset-envelope">Open the envelope again</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <nav class="dots" id="dots" aria-label="Slide navigation"></nav>
+
+  <script>
+    /** Walima-only invitation — edit all event details here */
+    const CFG = {
+      coupleDisplay: "Mr & Miss Hammad Sajid",
+      coupleImage: "assets/couple-nobg.png?v=2",
+      sealMonogram: "H & A",
+      requestLine: "request the honour of your presence at their",
+      envelopeNote: "Your presence will make our special day even more memorable.",
+
+      intro: {
+        bismillah: "بسم اللہ الرحمٰن الرحیم",
+        inviteLine: "With joy and gratitude, we invite you to the Walima of",
+        urduInvite: "آپ کی تشریف آوری ہمارے لیے باعثِ مسرت ہوگی",
+      },
+
+      walima: {
+        title: "Walima",
+        dateLabel: "SUNDAY, 6 DECEMBER 2026",
+        countdownISO: "2026-12-06T12:00:00",
+        tagline: "An afternoon of blessings with those we love",
+        timeRange: "12:00 PM – 4:00 PM",
+        venue: "Gujar Khan Marriage Hall (near Sabzi Mandi)",
+        mapsUrl: "https://www.google.com/maps/search/Gujar+Khan+Marriage+Hall+Sabzi+Mandi",
+      },
+
+      petals: { count: 12 },
+    };
+
+    const SLIDE_COUNT = 4;
+    let currentSlide = 0;
+    let envelopeOpened = false;
+    let sealBroken = false;
+    let countdownTimer = null;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    const dotsNav = document.getElementById("dots");
+    const envelope = document.getElementById("envelope");
+    const envelopeScene = document.getElementById("envelope-scene");
+    const envelopeStage = document.getElementById("envelope-stage");
+    const btnEnvContinue = document.getElementById("btn-env-continue");
+    const envelopeSlot = document.getElementById("envelope-slot");
+    const photoMount = document.getElementById("photo-mount");
+    const photoCard = document.getElementById("photo-card");
+    const seal = document.getElementById("seal");
+
+    function ejectPhoto() {
+      photoCard.classList.add("photo-card--revealed");
+      if (photoCard.parentElement !== photoMount) {
+        photoMount.appendChild(photoCard);
+      }
+      photoMount.setAttribute("aria-hidden", "false");
+      photoCard.setAttribute("aria-hidden", "false");
+    }
+
+    function insertPhotoIntoEnvelope() {
+      photoCard.classList.remove("photo-card--revealed");
+      envelopeSlot.appendChild(photoCard);
+      photoMount.setAttribute("aria-hidden", "true");
+    }
+
+    function bindConfig() {
+      document.getElementById("env-hosts").textContent = CFG.coupleDisplay;
+      document.getElementById("env-subtitle").textContent = CFG.requestLine;
+      document.getElementById("env-note").textContent = CFG.envelopeNote;
+      document.getElementById("env-footer-names").textContent = CFG.coupleDisplay;
+      const photo = document.getElementById("couple-photo");
+      photo.src = CFG.coupleImage;
+      photo.alt = CFG.coupleDisplay;
+      photo.loading = "eager";
+      photo.decoding = "async";
+      const introPhoto = document.getElementById("intro-couple-photo");
+      introPhoto.src = CFG.coupleImage;
+      introPhoto.alt = CFG.coupleDisplay;
+      document.getElementById("photo-caption").textContent = CFG.coupleDisplay;
+      document.getElementById("seal-letter").textContent = CFG.sealMonogram;
+      seal.setAttribute("aria-label", "Tap the seal to open — " + CFG.sealMonogram);
+      document.getElementById("intro-bismillah").textContent = CFG.intro.bismillah;
+      document.getElementById("intro-line").textContent = CFG.intro.inviteLine;
+      document.getElementById("intro-names").textContent = CFG.coupleDisplay;
+      document.getElementById("intro-urdu-invite").textContent = CFG.intro.urduInvite;
+
+      document.getElementById("walima-heading").textContent = CFG.walima.title;
+      document.getElementById("walima-date").textContent = CFG.walima.dateLabel;
+      document.getElementById("walima-tagline").textContent = CFG.walima.tagline;
+      document.getElementById("walima-time").textContent = CFG.walima.timeRange;
+      document.getElementById("walima-venue").textContent = CFG.walima.venue;
+      document.getElementById("walima-maps").href = CFG.walima.mapsUrl;
+
+      document.getElementById("closing-signature").textContent = CFG.coupleDisplay;
+      document.getElementById("countdown-label").textContent =
+        "Until Walima · " + CFG.walima.dateLabel.replace(/^[^,]+,\s*/, "");
+    }
+
+    function initPetals() {
+      const container = document.getElementById("petals");
+      const n = reducedMotion ? 4 : CFG.petals.count;
+      for (let i = 0; i < n; i++) {
+        const el = document.createElement("div");
+        el.className = "petal";
+        el.style.left = Math.random() * 100 + "%";
+        el.style.animationDuration = 12 + Math.random() * 14 + "s";
+        el.style.animationDelay = -Math.random() * 20 + "s";
+        container.appendChild(el);
+      }
+    }
+
+    function buildDots() {
+      for (let i = 0; i < SLIDE_COUNT; i++) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "dot" + (i === 0 ? " active" : "");
+        b.setAttribute("aria-label", "Go to slide " + (i + 1));
+        b.dataset.slide = String(i);
+        b.addEventListener("click", () => goToSlide(i, true));
+        dotsNav.appendChild(b);
+      }
+    }
+
+    function updateDots(index) {
+      dotsNav.querySelectorAll(".dot").forEach((d, i) => {
+        d.classList.toggle("active", i === index);
+      });
+    }
+
+    function parseHash() {
+      const h = location.hash.replace("#", "");
+      const n = parseInt(h, 10);
+      if (!Number.isNaN(n) && n >= 0 && n < SLIDE_COUNT) return n;
+      return 0;
+    }
+
+    function setHash(index) {
+      const next = "#" + index;
+      if (location.hash !== next) history.replaceState(null, "", next);
+    }
+
+    function goToSlide(index, fromUser) {
+      if (index < 0 || index >= SLIDE_COUNT) return;
+      if (index === currentSlide && fromUser) return;
+      if (index > 0 && !envelopeOpened && fromUser) return;
+
+      const prev = currentSlide;
+      currentSlide = index;
+
+      slides.forEach((s, i) => {
+        s.classList.remove("active", "exit-left");
+        if (i === index) s.classList.add("active");
+        else if (i === prev && index > prev) s.classList.add("exit-left");
+      });
+
+      updateDots(index);
+      setHash(index);
+
+      if (index === 3) startCountdown();
+      else stopCountdown();
+    }
+
+    function resetEnvelope() {
+      envelopeOpened = false;
+      sealBroken = false;
+      envelope.classList.remove("open");
+      envelopeStage.classList.remove("is-open");
+      envelopeScene.classList.remove("is-open");
+      insertPhotoIntoEnvelope();
+      document.querySelector(".envelope-wrap").style.visibility = "";
+      document.querySelector(".envelope-wrap").style.opacity = "";
+      document.querySelector(".envelope-wrap").style.maxHeight = "";
+      seal.classList.add("seal-pulse");
+      document.getElementById("env-hint").textContent = "Tap the seal to open the invitation";
+      photoCard.setAttribute("aria-hidden", "true");
+      photoCard.tabIndex = -1;
+      btnEnvContinue.classList.remove("visible");
+      goToSlide(0, false);
+    }
+
+    function showPhotoReady() {
+      document.getElementById("env-hint").textContent = "Tap the photo or Continue";
+      btnEnvContinue.classList.add("visible");
+    }
+
+    function breakSeal() {
+      if (sealBroken) return;
+      sealBroken = true;
+      envelope.classList.add("open");
+      envelopeStage.classList.add("is-open");
+      envelopeScene.classList.add("is-open");
+      seal.classList.remove("seal-pulse");
+      photoCard.setAttribute("aria-hidden", "false");
+      photoCard.tabIndex = 0;
+      const revealDelay = reducedMotion ? 0 : 420;
+      if (revealDelay === 0) {
+        ejectPhoto();
+        showPhotoReady();
+      } else {
+        setTimeout(() => {
+          ejectPhoto();
+          showPhotoReady();
+        }, revealDelay);
+      }
+    }
+
+    function continueFromPhoto() {
+      if (!sealBroken) return;
+      envelopeOpened = true;
+      goToSlide(1, false);
+    }
+
+    const envHint = document.getElementById("env-hint");
+
+    function tryOpenEnvelope() {
+      if (!sealBroken) breakSeal();
+    }
+
+    seal.addEventListener("click", (e) => {
+      e.stopPropagation();
+      tryOpenEnvelope();
+    });
+    seal.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        tryOpenEnvelope();
+      }
+    });
+    envHint.addEventListener("click", tryOpenEnvelope);
+    envHint.addEventListener("keydown", (e) => {
+      if (!sealBroken && (e.key === "Enter" || e.key === " ")) {
+        e.preventDefault();
+        tryOpenEnvelope();
+      }
+    });
+    document.querySelector(".envelope-wrap").addEventListener("click", (e) => {
+      if (!sealBroken && !e.target.closest("#photo-card")) tryOpenEnvelope();
+    });
+    photoCard.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (sealBroken && photoCard.classList.contains("photo-card--revealed")) continueFromPhoto();
+    });
+    btnEnvContinue.addEventListener("click", () => {
+      if (sealBroken) continueFromPhoto();
+    });
+
+    document.getElementById("btn-reset-envelope").addEventListener("click", resetEnvelope);
+
+    document.querySelectorAll("[data-goto]").forEach((el) => {
+      el.addEventListener("click", () => {
+        const target = parseInt(el.dataset.goto, 10);
+        if (target >= 1) envelopeOpened = true;
+        goToSlide(target, true);
+      });
+    });
+
+    window.addEventListener("hashchange", () => {
+      const idx = parseHash();
+      if (idx > 0) envelopeOpened = true;
+      goToSlide(idx, false);
+    });
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+    const SWIPE_THRESHOLD = 50;
+
+    document.getElementById("viewport").addEventListener(
+      "touchstart",
+      (e) => {
+        touchStartX = e.changedTouches[0].clientX;
+        touchStartY = e.changedTouches[0].clientY;
+      },
+      { passive: true }
+    );
+
+    document.getElementById("viewport").addEventListener(
+      "touchend",
+      (e) => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        const dy = e.changedTouches[0].clientY - touchStartY;
+        if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dy) > Math.abs(dx)) return;
+
+        if (dx < 0 && currentSlide < SLIDE_COUNT - 1) {
+          if (currentSlide === 0 && !sealBroken) return;
+          if (currentSlide === 0) envelopeOpened = true;
+          goToSlide(currentSlide + 1, true);
+        } else if (dx > 0 && currentSlide > 0) {
+          goToSlide(currentSlide - 1, true);
+        }
+      },
+      { passive: true }
+    );
+
+    function startCountdown() {
+      stopCountdown();
+      tickCountdown();
+      countdownTimer = setInterval(tickCountdown, 1000);
+    }
+
+    function stopCountdown() {
+      if (countdownTimer) {
+        clearInterval(countdownTimer);
+        countdownTimer = null;
+      }
+    }
+
+    function tickCountdown() {
+      const target = new Date(CFG.walima.countdownISO).getTime();
+      let diff = Math.max(0, target - Date.now());
+
+      const sec = Math.floor(diff / 1000) % 60;
+      diff -= sec * 1000;
+      const min = Math.floor(diff / 60000) % 60;
+      diff -= min * 60000;
+      const hrs = Math.floor(diff / 3600000) % 24;
+      diff -= hrs * 3600000;
+      const days = Math.floor(diff / 86400000);
+
+      document.getElementById("cd-days").textContent = String(days);
+      document.getElementById("cd-hrs").textContent = String(hrs).padStart(2, "0");
+      document.getElementById("cd-min").textContent = String(min).padStart(2, "0");
+      document.getElementById("cd-sec").textContent = String(sec).padStart(2, "0");
+    }
+
+    bindConfig();
+    initPetals();
+    buildDots();
+
+    const initial = parseHash();
+    if (initial > 0) {
+      envelopeOpened = true;
+      sealBroken = true;
+      envelope.classList.add("open");
+      envelopeStage.classList.add("is-open");
+      envelopeScene.classList.add("is-open");
+      seal.classList.remove("seal-pulse");
+      photoCard.setAttribute("aria-hidden", "false");
+      ejectPhoto();
+      showPhotoReady();
+    }
+    goToSlide(initial, false);
+  </script>
+</body>
+</html>
