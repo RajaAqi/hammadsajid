@@ -4,11 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#fdfbf7" />
+  <link rel="icon" href="data:," />
   <meta name="description" content="Walima Invitation — Mr & Miss Hammad Sajid" />
   <title>Walima Invitation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="preload" as="image" href="assets/couple-nobg.png?v=2" fetchpriority="high" />
   <style>
     :root {
       /* Champagne ivory + antique gold (matches couple maroon/cream) */
@@ -32,7 +34,9 @@
       --surface-page: linear-gradient(180deg, var(--ivory-50) 0%, var(--ivory-150) 100%);
       --surface-card: linear-gradient(165deg, var(--ivory-50) 0%, var(--ivory-100) 100%);
       --surface-invite: linear-gradient(180deg, var(--ivory-50) 0%, var(--ivory-100) 54%, var(--ivory-150) 100%);
-      --surface-btn: linear-gradient(180deg, #f0e4cc 0%, #dcc99f 100%);
+      --surface-btn: linear-gradient(180deg, #b89242 0%, #8a6828 100%);
+      --surface-btn-text: #fffef9;
+      --btn-outline-bg: #fdfbf7;
       --frame-gold: linear-gradient(145deg, #e8d9b4, var(--gold-400) 48%, var(--gold-500));
       --bg-deep: var(--ivory-150);
       --bg-mid: var(--ivory-50);
@@ -58,6 +62,14 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     html { height: 100%; -webkit-text-size-adjust: 100%; }
+
+    html:not(.is-ready) .app {
+      visibility: hidden;
+    }
+
+    html.is-ready .app {
+      visibility: visible;
+    }
 
     body {
       min-height: 100dvh;
@@ -152,6 +164,11 @@
       visibility: visible;
       transform: translateX(0);
       z-index: 2;
+      pointer-events: auto;
+    }
+
+    .slide:not(.active) {
+      pointer-events: none;
     }
 
     .slide.exit-left {
@@ -287,37 +304,50 @@
     button, .btn-link {
       font-family: var(--font-body);
       font-size: 0.95rem;
-      letter-spacing: 0.06em;
+      font-weight: 600;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 0.65rem 1.25rem;
-      border: 1px solid var(--gold);
-      background: rgba(253, 251, 247, 0.82);
-      color: var(--gold-dark);
+      padding: 0.7rem 1.35rem;
+      border: 2px solid var(--gold-500);
+      background: var(--btn-outline-bg);
+      color: var(--ink);
       border-radius: 2px;
       cursor: pointer;
       text-decoration: none;
       display: inline-block;
-      transition: background 0.2s, transform 0.15s;
+      line-height: 1.25;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
       -webkit-tap-highlight-color: transparent;
+      box-shadow: 0 2px 8px var(--shadow-warm);
     }
 
     button:active, .btn-link:active { transform: scale(0.98); }
     button:focus-visible, .btn-link:focus-visible {
-      outline: 2px solid var(--gold);
+      outline: 2px solid var(--gold-500);
       outline-offset: 2px;
     }
 
     button.primary {
       background: var(--surface-btn);
-      border-color: var(--gold-500);
-      color: var(--gold-600);
-      box-shadow: 0 4px 14px var(--shadow-warm);
+      border-color: #6e5420;
+      color: var(--surface-btn-text);
+      box-shadow: 0 4px 14px var(--shadow-warm-md);
+      text-shadow: 0 1px 1px rgba(42, 32, 16, 0.35);
     }
 
-    button.ghost {
-      border-color: var(--border-gold);
-      background: rgba(253, 251, 247, 0.55);
-      color: var(--ink-soft);
+    button.ghost, .btn-link {
+      border-color: var(--gold-500);
+      background: var(--btn-outline-bg);
+      color: var(--ink);
+    }
+
+    .btn-link:hover,
+    button.ghost:hover {
+      background: var(--ivory-100);
+    }
+
+    button.primary:hover {
+      filter: brightness(1.05);
     }
 
     .dots {
@@ -593,9 +623,9 @@
       gap: 0.65rem;
     }
 
-    /* Open: vertical stack like reference artboard */
-    .envelope-scene.is-open .env-layout__copy,
-    .envelope-scene.is-open .invite-card__foot {
+    /* Open: collapse envelope first; reveal invitation copy after photo is ready */
+    .envelope-scene.is-revealed .env-layout__copy,
+    .envelope-scene.is-revealed .invite-card__foot {
       display: block;
     }
 
@@ -613,43 +643,48 @@
     }
 
     .envelope-scene.is-open .envelope-stage {
-      display: none;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
     }
 
-    .envelope-scene.is-open .photo-mount {
+    .envelope-scene.is-revealed .photo-mount {
       display: flex;
       min-height: 0;
     }
 
-    .envelope-scene.is-open .env-layout__copy {
+    .envelope-scene.is-revealed .env-layout__copy {
       order: 1;
     }
 
-    .envelope-scene.is-open .invite-card__foot {
+    .envelope-scene.is-revealed .invite-card__foot {
       order: 3;
     }
 
-    .envelope-scene.is-open .env-layout__actions {
+    .envelope-scene.is-revealed .env-layout__actions {
       order: 4;
       width: 100%;
       max-width: 14rem;
       margin-top: 0.25rem;
     }
 
-    .envelope-scene.is-open .hint {
+    .envelope-scene.is-revealed .hint {
       text-align: center;
       padding: 0;
       min-height: auto;
       font-size: 0.78rem;
     }
 
-    .envelope-scene.is-open .photo-card.photo-card--revealed {
+    .envelope-scene.is-revealed .photo-card.photo-card--revealed {
       width: min(240px, 78vw);
       max-width: 260px;
       margin: 0 auto;
     }
 
-    .envelope-scene.is-open .photo-card__frame {
+    .envelope-scene.is-revealed .photo-card__frame {
       width: 100%;
       max-width: none;
       margin: 0 auto;
@@ -658,14 +693,14 @@
       box-shadow: none;
     }
 
-    .envelope-scene.is-open .photo-card__mat {
+    .envelope-scene.is-revealed .photo-card__mat {
       background: transparent;
       border: none;
       padding: 0;
       line-height: 0;
     }
 
-    .envelope-scene.is-open .couple-photo {
+    .envelope-scene.is-revealed .couple-photo {
       max-height: min(280px, 62vw);
       width: auto;
       max-width: min(240px, 72vw);
@@ -674,11 +709,11 @@
       vertical-align: top;
     }
 
-    .envelope-scene.is-open .photo-card--revealed .photo-card__frame {
+    .envelope-scene.is-revealed .photo-card--revealed .photo-card__frame {
       box-shadow: none;
     }
 
-    .envelope-scene.is-open .photo-card__caption {
+    .envelope-scene.is-revealed .photo-card__caption {
       display: none;
     }
 
@@ -693,10 +728,10 @@
       transform-style: preserve-3d;
       transform-origin: center center;
       transition:
-        opacity 0.45s ease,
-        transform 0.45s ease,
-        max-height 0.5s ease 0.1s,
-        margin 0.45s ease;
+        opacity 0.35s ease,
+        transform 0.35s ease,
+        max-height 0.4s ease,
+        margin 0.35s ease;
       max-height: 280px;
       overflow: hidden;
     }
@@ -706,9 +741,9 @@
       visibility: hidden;
       max-height: 0;
       margin: 0;
-      transform: scale(0.94);
+      transform: scale(0.98);
       pointer-events: none;
-      transition-delay: 0.55s;
+      transition-delay: 0s;
     }
 
     /* Burgundy frame + classic cream envelope (back view) */
@@ -826,7 +861,10 @@
       visibility: visible !important;
       pointer-events: auto;
       cursor: pointer;
-      animation: photoPop 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .envelope-scene.is-revealed .photo-card.photo-card--revealed {
+      animation: photoPop 0.45s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     @keyframes photoPop {
@@ -972,9 +1010,10 @@
       min-height: 2.5em;
       padding: 1rem 1rem 0;
       line-height: 1.45;
-      font-size: 0.85rem;
-      color: var(--cream-dim);
+      font-size: 0.88rem;
+      color: var(--ink-soft);
       font-style: italic;
+      font-weight: 500;
       max-width: 20rem;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
@@ -987,21 +1026,32 @@
     }
 
     .envelope-scene:not(.is-open) .hint {
-      color: var(--gold-dark);
+      color: var(--ink);
     }
 
     .env-continue {
-      display: none;
+      display: block;
       width: 100%;
       max-width: 11.5rem;
       margin: 0;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      padding: 0;
+      border-width: 0;
+      pointer-events: none;
+      transition: max-height 0.25s ease, opacity 0.25s ease, padding 0.25s ease;
     }
 
     .env-continue.visible {
-      display: block;
+      max-height: 3.75rem;
+      opacity: 1;
+      padding: 0.7rem 1.35rem;
+      border-width: 2px;
+      pointer-events: auto;
     }
 
-    .envelope-scene.is-open .env-continue.visible {
+    .envelope-scene.is-revealed .env-continue.visible {
       width: 100%;
       max-width: 100%;
     }
@@ -1034,7 +1084,7 @@
       .slide > .envelope-scene { margin-block: 0; }
       #env-subtitle { font-size: 0.88rem; line-height: 1.4; }
       .envelope-wrap { width: 100%; }
-      .envelope-scene.is-open .couple-photo { max-height: min(180px, 46vw); }
+      .envelope-scene.is-revealed .couple-photo { max-height: min(180px, 46vw); }
       .envelope { min-height: 140px; aspect-ratio: 1.68 / 1; }
     }
 
@@ -1229,7 +1279,7 @@
         countdownISO: "2026-12-06T12:00:00",
         tagline: "An afternoon of blessings with those we love",
         timeRange: "12:00 PM – 4:00 PM",
-        venue: "Gujar Khan Marriage Hall (near Sabzi Mandi)",
+        venue: "Gujar Khan Marriage Hall (Near Sabzi Mandi)",
         mapsUrl: "https://www.google.com/maps/search/Gujar+Khan+Marriage+Hall+Sabzi+Mandi",
       },
 
@@ -1280,8 +1330,10 @@
       photo.loading = "eager";
       photo.decoding = "async";
       const introPhoto = document.getElementById("intro-couple-photo");
-      introPhoto.src = CFG.coupleImage;
+      introPhoto.dataset.src = CFG.coupleImage;
       introPhoto.alt = CFG.coupleDisplay;
+      introPhoto.loading = "lazy";
+      introPhoto.decoding = "async";
       document.getElementById("photo-caption").textContent = CFG.coupleDisplay;
       document.getElementById("seal-letter").textContent = CFG.sealMonogram;
       seal.setAttribute("aria-label", "Tap the seal to open — " + CFG.sealMonogram);
@@ -1345,6 +1397,14 @@
       if (location.hash !== next) history.replaceState(null, "", next);
     }
 
+    function ensureIntroPhoto() {
+      const introPhoto = document.getElementById("intro-couple-photo");
+      const src = introPhoto.dataset.src || CFG.coupleImage;
+      if (!introPhoto.getAttribute("src")) {
+        introPhoto.src = src;
+      }
+    }
+
     function goToSlide(index, fromUser) {
       if (index < 0 || index >= SLIDE_COUNT) return;
       if (index === currentSlide && fromUser) return;
@@ -1352,6 +1412,8 @@
 
       const prev = currentSlide;
       currentSlide = index;
+
+      if (index >= 1) ensureIntroPhoto();
 
       slides.forEach((s, i) => {
         s.classList.remove("active", "exit-left");
@@ -1371,7 +1433,7 @@
       sealBroken = false;
       envelope.classList.remove("open");
       envelopeStage.classList.remove("is-open");
-      envelopeScene.classList.remove("is-open");
+      envelopeScene.classList.remove("is-open", "is-revealed");
       insertPhotoIntoEnvelope();
       document.querySelector(".envelope-wrap").style.visibility = "";
       document.querySelector(".envelope-wrap").style.opacity = "";
@@ -1389,30 +1451,33 @@
       btnEnvContinue.classList.add("visible");
     }
 
+    function revealInvitationCard() {
+      envelopeScene.classList.add("is-open");
+      ejectPhoto();
+      envelopeScene.classList.add("is-revealed");
+      photoCard.setAttribute("aria-hidden", "false");
+      photoCard.tabIndex = 0;
+      showPhotoReady();
+    }
+
     function breakSeal() {
       if (sealBroken) return;
       sealBroken = true;
       envelope.classList.add("open");
       envelopeStage.classList.add("is-open");
-      envelopeScene.classList.add("is-open");
       seal.classList.remove("seal-pulse");
-      photoCard.setAttribute("aria-hidden", "false");
-      photoCard.tabIndex = 0;
-      const revealDelay = reducedMotion ? 0 : 420;
-      if (revealDelay === 0) {
-        ejectPhoto();
-        showPhotoReady();
+      const flapMs = reducedMotion ? 60 : 680;
+      if (flapMs <= 60) {
+        revealInvitationCard();
       } else {
-        setTimeout(() => {
-          ejectPhoto();
-          showPhotoReady();
-        }, revealDelay);
+        setTimeout(revealInvitationCard, flapMs);
       }
     }
 
     function continueFromPhoto() {
       if (!sealBroken) return;
       envelopeOpened = true;
+      ensureIntroPhoto();
       goToSlide(1, false);
     }
 
@@ -1538,13 +1603,18 @@
       sealBroken = true;
       envelope.classList.add("open");
       envelopeStage.classList.add("is-open");
-      envelopeScene.classList.add("is-open");
+      envelopeScene.classList.add("is-open", "is-revealed");
       seal.classList.remove("seal-pulse");
-      photoCard.setAttribute("aria-hidden", "false");
       ejectPhoto();
       showPhotoReady();
+      photoCard.setAttribute("aria-hidden", "false");
+      photoCard.tabIndex = 0;
+      ensureIntroPhoto();
     }
     goToSlide(initial, false);
+    requestAnimationFrame(() => {
+      document.documentElement.classList.add("is-ready");
+    });
   </script>
 </body>
 </html>

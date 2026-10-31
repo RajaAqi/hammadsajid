@@ -74,7 +74,7 @@ async function testEnvelopeFlow(page, vpName) {
   if (parseFloat(state.wrapVisible) < 0.9) issues.push("envelope should be visible initially");
 
   await page.evaluate(() => document.getElementById("seal")?.click());
-  await delay(1200);
+  await delay(1500);
 
   state = await page.evaluate(() => ({
     sealBroken: document.getElementById("envelope-scene")?.classList.contains("is-open"),
@@ -142,7 +142,8 @@ async function main() {
       await delay(300);
       if (hash === "0") {
         await page.evaluate(() => {
-          document.getElementById("envelope-scene")?.classList.add("is-open");
+          const scene = document.getElementById("envelope-scene");
+          scene?.classList.add("is-open", "is-revealed");
           document.getElementById("photo-card")?.classList.add("photo-card--revealed");
         });
         await delay(100);
